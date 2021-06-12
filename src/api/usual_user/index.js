@@ -26,3 +26,16 @@ export const completeRegisterUser = async (payload) => {
 export const firstSecureLevel = async (payload) => {
     return await Api.post(`/main/first-level`, payload)
 };
+
+export const checkAvailOfTestName = async (payload) => {
+    return await Api.post(`/addTest/check`, payload)
+};
+
+export const addNewTest = async (payload) => {
+    return await Api.post(`/addTest/registerTest`, payload)
+};
+
+export const addNewQuestion = async (payload) => {
+    console.log('Я жив')
+    return await Api.post(`/addTest/registerQuestion`, payload)
+};

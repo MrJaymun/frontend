@@ -165,7 +165,7 @@ export default {
   right: 0;
   top: 0;
   width: 100%;
-  height: 100%s;
+  height: 100%;
   background-color: black;
   opacity: 0.7;
 }
@@ -195,7 +195,7 @@ export default {
     margin-bottom: 20px;
     margin-right: -12px;
     font-size: 22px;
-    width: 285px;
+    width: 270px;
     height: 30px;
     text-align: center;
   }
