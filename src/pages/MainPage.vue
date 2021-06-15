@@ -2,7 +2,7 @@
   <div>
     <div class="header">
       <div class="header__nav">
-        <button class="header_button">Личный кабинет</button>
+        <button class="header_button" @click="$router.push('/personal')">Личный кабинет</button>
         <button class="header_button">Рейтинг</button>
         <button class="header_button" v-if="isNotUsual" @click="$router.push('/add-test')">Создать тест</button>
       </div>
@@ -72,6 +72,7 @@ export default {
     display: flex;
     margin: 10px 5%;
   flex-direction: row-reverse;
+    border-bottom: 1px solid gray;
   }
   .header_button{
     width: 25%;

@@ -83,11 +83,12 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Jura:wght@300;400;500;600;700&display=swap');
 
 .text-zone{
-  background-color: white;
+  background-color: #f1f5fe;
   padding: 5px;
   border: 1px solid black;
  margin-top: 50px;
   margin-left: -20px;
+
 }
 .adder{
   margin-top: 20px;

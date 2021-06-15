@@ -2,7 +2,7 @@
   <div class="page">
     <div class="page__header">
       <div class="header__nav">
-        <button class="header__button">Личный кабинет</button>
+        <button class="header__button" @click="$router.push('/personal')">Личный кабинет</button>
         <button class="header__button">Рейтинг</button>
         <button class="header__button" @click="$router.push('/main')">Главная страница</button>
       </div>
@@ -10,7 +10,7 @@
     <div class="text-zone">
       <div class="adder">
         <div class="adder__element">
-            <p class="adder__text">Введите название теста</p>
+          <p class="adder__text">Введите название теста</p>
           <textarea class="adder__text-area" v-model="testName" maxlength="255"></textarea>
         </div>
         <div class="adder__element">
@@ -52,7 +52,7 @@
           УДАЛИТЬ ВОПРОС
         </button>
         <button class="footer__form-button"  @click="saveTest">
-         СОХРАНИТЬ ТЕСТ
+          СОХРАНИТЬ ТЕСТ
         </button>
         <div v-show="showModal">
           <div class="footer__modal-background">
@@ -221,7 +221,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Jura:wght@300;400;500;600;700&display=swap');
 
 .page{
-  background-color: #f1f5fe;
+  background-color: white;
 }
 .page__header{
   background-color: white;
@@ -230,6 +230,7 @@ export default {
   display: flex;
   margin: 10px 5%;
   flex-direction: row-reverse;
+  border-bottom: 1px solid gray;
 }
 .header__button{
   width: 25%;
@@ -247,6 +248,7 @@ export default {
 .adder{
   font-family: 'Jura', sans-serif;
   width: 90%;
+  padding-top: 30px;
   margin: 0 auto;
 }
 .adder__element{

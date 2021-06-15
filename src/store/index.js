@@ -5,7 +5,14 @@ import {
     loginUser,
     registerUser,
     completeRegisterUser,
-    firstSecureLevel, checkAvailOfTestName, addNewTest, addNewQuestion
+    firstSecureLevel,
+    secondSecureLevel,
+    checkAvailOfTestName,
+    addNewTest,
+    addNewQuestion,
+    getLogin,
+    getCreatedTests,
+    getPassedTests, changePassword, getTestList, getQuestionsList, approveTest, declineTest, destroyTest, fullMyTest
 } from "@/api/usual_user";
 
 Vue.use(Vuex)
@@ -22,7 +29,9 @@ export default new Vuex.Store({
                 fourthAnswer: '',
                 correctAnswer: 1
             }
-        ]
+        ],
+        tests:[],
+        myTests: []
 
     },
     mutations: {
@@ -36,7 +45,41 @@ export default new Vuex.Store({
                 fourthAnswer: '',
                 correctAnswer: 1
             })
-            console.log(state.questions.length)
+
+        },
+        addAdminQuestion(state, payload) {
+            state.questions.push({
+                id: state.questions.length,
+                questionName: payload.name,
+                firstAnswer: payload.first,
+                secondAnswer: payload.second,
+                thirdAnswer: payload.third,
+                fourthAnswer: payload.fourth,
+                correctAnswer: payload.correct
+            })
+
+        },
+
+        addTestToArray(state, payload) {
+            state.tests.push({
+                id: payload.id,
+                testName: payload.name,
+                category: payload.category
+
+            })
+
+
+        },
+
+        addMyTestToArray(state, payload) {
+            state.myTests.push({
+                id: state.myTests.length,
+                testName: payload.name,
+                status: payload.status
+
+            })
+
+
         },
 
         rewriteQuestion(state, payload) {
@@ -69,8 +112,29 @@ export default new Vuex.Store({
                 }
             ]
         },
+        removeAllQuestionsAdmin(state){
+            state.questions = [
+
+            ]
+        },
         addName(state, payload) {
             state.nameOfText = payload.name
+        },
+        clearQuestionList(state){
+            state.questions = [
+
+            ]
+        },
+        clearTestsList(state){
+            state.tests = []
+        },
+        clearMyTestsList(state){
+            state.myTests = []
+        },
+
+        deleteTest(state, payload) {
+            let i = state.tests.findIndex(x => x.id == payload.id)
+            state.tests.splice(i, 1)
         }
 
     },
@@ -80,6 +144,12 @@ export default new Vuex.Store({
         },
         getName(state){
             return state.nameOfText
+        },
+        getTests(state){
+            return state.tests
+        },
+        getMyTests(state){
+            return state.myTests
         }
     },
 
@@ -114,6 +184,12 @@ export default new Vuex.Store({
             return result
         },
         // eslint-disable-next-line no-unused-vars
+        async secondLevel({commit}, payload){
+
+            let result = (await secondSecureLevel(payload));
+            return result
+        },
+        // eslint-disable-next-line no-unused-vars
         async testNameChecker({commit}, payload){
 
             let result = (await checkAvailOfTestName(payload));
@@ -130,7 +206,66 @@ export default new Vuex.Store({
 
             let result = (await addNewQuestion(payload));
             return result
+        },
+        // eslint-disable-next-line no-unused-vars
+        async takeInfoAboutLogin({commit}, payload){
+
+            let result = (await getLogin(payload));
+            return result
+        },
+        // eslint-disable-next-line no-unused-vars
+        async takeInfoAboutCreatedTests({commit}, payload){
+
+            let result = (await getCreatedTests(payload));
+            return result
+        },
+        // eslint-disable-next-line no-unused-vars
+        async takeInfoAboutPassedTests({commit}, payload){
+
+            let result = (await getPassedTests(payload));
+            return result
+        },
+        // eslint-disable-next-line no-unused-vars
+        async changePasswordToNew({commit}, payload){
+
+            let result = (await changePassword(payload));
+            return result
+        },
+        // eslint-disable-next-line no-unused-vars
+        async  testList({commit}, payload){
+            let result = (await getTestList(payload));
+            return result
+        },
+        // eslint-disable-next-line no-unused-vars
+        async  fullQuestionsForAdmin({commit}, payload){
+            let result = (await getQuestionsList(payload));
+            return result
+        },
+
+        // eslint-disable-next-line no-unused-vars
+        async  approveTheTest({commit}, payload){
+            let result = (await approveTest(payload));
+            return result
+        },
+
+        // eslint-disable-next-line no-unused-vars
+        async  declineTheTest({commit}, payload){
+            let result = (await declineTest(payload));
+            return result
+        },
+
+        // eslint-disable-next-line no-unused-vars
+        async  destroyTheTest({commit}, payload){
+            let result = (await destroyTest(payload));
+            return result
+        },
+
+        // eslint-disable-next-line no-unused-vars
+        async  fullOnlyMyTests({commit}, payload){
+            let result = (await fullMyTest(payload));
+            return result
         }
+
 
     }
 

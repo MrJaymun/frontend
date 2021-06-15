@@ -3,6 +3,7 @@ import Auth from '../pages/Auth'
 import Register from '../pages/Register';
 import MainPage from '../pages/MainPage';
 import AddTest from '../pages/AddTest';
+import Personal from '../pages/Personal';
 
 export default new VueRouter({
     mode: 'history',
@@ -26,7 +27,10 @@ export default new VueRouter({
 
             path: '/add-test',
             component: AddTest
+        },
+        {
+            path: '/personal',
+            component: Personal
         }
-
     ]
 })
