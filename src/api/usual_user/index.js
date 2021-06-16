@@ -93,3 +93,8 @@ export const fullMyTest = async (payload) => {
 
     return await Api.post(`/personal/fullMyTest`, payload)
 };
+
+export const fullPassingTests = async (payload) => {
+
+    return await Api.post(`/main/testToPass`, payload)
+};

@@ -12,7 +12,15 @@ import {
     addNewQuestion,
     getLogin,
     getCreatedTests,
-    getPassedTests, changePassword, getTestList, getQuestionsList, approveTest, declineTest, destroyTest, fullMyTest
+    getPassedTests,
+    changePassword,
+    getTestList,
+    getQuestionsList,
+    approveTest,
+    declineTest,
+    destroyTest,
+    fullMyTest,
+    fullPassingTests
 } from "@/api/usual_user";
 
 Vue.use(Vuex)
@@ -31,8 +39,8 @@ export default new Vuex.Store({
             }
         ],
         tests:[],
-        myTests: []
-
+        myTests: [],
+        passer: []
     },
     mutations: {
         addQuestion(state) {
@@ -82,6 +90,18 @@ export default new Vuex.Store({
 
         },
 
+        addPasser(state, payload) {
+            state.passer.push({
+                id: payload.id,
+                cat_id: payload.cat_id,
+                cat_name: payload.cat_name,
+                name: payload.name,
+                counter: payload.counter
+
+            })
+
+        },
+
         rewriteQuestion(state, payload) {
             let i = state.questions.findIndex(x => x.id == payload.id)
 
@@ -114,6 +134,11 @@ export default new Vuex.Store({
         },
         removeAllQuestionsAdmin(state){
             state.questions = [
+
+            ]
+        },
+        clearPasser(state){
+            state.passer = [
 
             ]
         },
@@ -150,6 +175,9 @@ export default new Vuex.Store({
         },
         getMyTests(state){
             return state.myTests
+        },
+        getPassers(state){
+            return state.passer
         }
     },
 
@@ -264,8 +292,12 @@ export default new Vuex.Store({
         async  fullOnlyMyTests({commit}, payload){
             let result = (await fullMyTest(payload));
             return result
+        },
+        // eslint-disable-next-line no-unused-vars
+        async  fullAllPassingTests({commit}, payload){
+            let result = (await fullPassingTests(payload));
+            return result
         }
-
 
     }
 
