@@ -98,3 +98,18 @@ export const fullPassingTests = async (payload) => {
 
     return await Api.post(`/main/testToPass`, payload)
 };
+
+export const fullPassingQuestions = async (payload) => {
+
+    return await Api.post(`/main/questionsToPass`, payload)
+};
+
+export const sendResults = async (payload) => {
+
+    return await Api.post(`/main/sendTest`, payload)
+};
+
+export const fullDashboard = async (payload) => {
+
+    return await Api.post(`/dashboard/allInfo`, payload)
+};

@@ -9,9 +9,9 @@
     </div>
     <div class="filter">
       <p>Введите название теста</p>
-      <input class="filter__finder" v-model="filtered" @change="filterText" >
+      <input class="filter__finder" v-model="filtered">
       <p>Выберите категорию</p>
-      <select class="filter__selecter" size="1" v-model="theme" @change="filterThemes">
+      <select class="filter__selecter" size="1" v-model="theme" >
         <option value="0">Все категории</option>
         <option value="1">Спорт</option>
         <option value="2">Кино</option>
@@ -89,19 +89,13 @@ export default {
   methods:{
     ...mapActions(['firstLevel', 'fullAllPassingTests']),
     ...mapMutations(['addPasser', 'clearPasser']),
-    filterText(){
-      console.log(this.filtered)
-    },
-    filterThemes(){
-      console.log(this.theme)
-    },
+
 
     fullTheListOfTests(){
       this.clearPasser()
       this.fullAllPassingTests({}).then(response => {
         if(response.data.status === '1'){
           response.data.result.forEach(test => {
-            console.log(response.data.result)
               this.addPasser({
                 id: test.test_id,
                 cat_id: test.test_category_id,
@@ -123,23 +117,27 @@ export default {
     if(!localStorage.getItem('token')){
       this.$router.push('/');
     }
+    else{
+      if(localStorage.getItem('level') != null){
 
-    if(localStorage.getItem('level') != null){
+        localStorage.removeItem('level')
+        window.location.reload();
+      }
+      this.firstLevel({}).then(response =>{
 
-      localStorage.removeItem('level')
-      window.location.reload();
+        if(response.data.result){
+          this.isNotUsual = true;
+        }
+        else{
+          this.isNotUsual =  false
+        }
+      })
+
+      this.fullTheListOfTests()
     }
-    this.firstLevel({}).then(response =>{
 
-      if(response.data.result){
-        this.isNotUsual = true;
-      }
-      else{
-        this.isNotUsual =  false
-      }
-    })
 
-    this.fullTheListOfTests()
+
   }
 
 
@@ -194,6 +192,7 @@ export default {
     background-color: #f1f5fe;
     border: 3px solid black;
     margin: 100px 5% 200px;
+
   }
   @media(max-width: 700px) {
     .header__nav{

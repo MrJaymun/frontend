@@ -89,6 +89,7 @@
 
     </div>
     <div class="exit">
+      <button v-if="isAdmin" class="exit__button" @click="$router.push('/dashboard')"> К АНАЛИТИКЕ</button>
       <button class="exit__button" @click="$router.push('/')"> ВЫЙТИ</button>
     </div>
   </div>
@@ -225,46 +226,49 @@ export default {
     if (!localStorage.getItem('token')) {
       this.$router.push('/');
     }
-    this.firstLevel({}).then(response =>{
+    else{
+      this.firstLevel({}).then(response =>{
 
-      if(response.data.result){
-        this.isNotUsual = true;
-      }
-      else{
-        this.isNotUsual =  false
-      }
-    })
-    this.secondLevel({}).then(response =>{
-
-      if(response.data.result){
-        this.isAdmin = true;
-      }
-      else{
-        this.isAdmin =  false
-      }
-    })
-    this.takeInfoAboutLogin({}).then(response =>{
-      this.login = response.data.result
-      this.takeInfoAboutCreatedTests({
-        login: this.login
-      }).then(responseCr =>{
-        if(responseCr.data.status === '1'){
-          this.createdTests = responseCr.data.result
-
+        if(response.data.result){
+          this.isNotUsual = true;
+        }
+        else{
+          this.isNotUsual =  false
         }
       })
-      this.takeInfoAboutPassedTests({
-        login: this.login
-      }).then(responseCr =>{
-        if(responseCr.data.status === '1'){
-          this.passedTests = responseCr.data.result
+      this.secondLevel({}).then(response =>{
 
+        if(response.data.result){
+          this.isAdmin = true;
+        }
+        else{
+          this.isAdmin =  false
         }
       })
-    })
+      this.takeInfoAboutLogin({}).then(response =>{
+        this.login = response.data.result
+        this.takeInfoAboutCreatedTests({
+          login: this.login
+        }).then(responseCr =>{
+          if(responseCr.data.status === '1'){
+            this.createdTests = responseCr.data.result
 
-    this.refreshListOfUnresolvedTests();
-    this.refreshMyTestsList();
+          }
+        })
+        this.takeInfoAboutPassedTests({
+          login: this.login
+        }).then(responseCr =>{
+          if(responseCr.data.status === '1'){
+            this.passedTests = responseCr.data.result
+
+          }
+        })
+      })
+
+      this.refreshListOfUnresolvedTests();
+      this.refreshMyTestsList();
+    }
+
 
   }
 }
@@ -352,6 +356,11 @@ export default {
 
 }
 
+.user-info__form-button:hover, .modal__form-button:hover, .exit__button:hover{
+  background-color: black;
+  border: 3px solid black;
+}
+
 .modal__background{
   bottom: 0;
   left: 0;
@@ -393,8 +402,8 @@ export default {
 }
 
 .exit{
-  margin: 0 auto;
   text-align: center;
+  margin: 100px auto 0;
 }
 
 @media(max-width: 1500px) {

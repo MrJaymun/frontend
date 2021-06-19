@@ -204,14 +204,17 @@ export default {
       if(!localStorage.getItem('token')){
         this.$router.push('/');
       }
-    this.firstLevel({}).then(response =>{
+      else{
+        this.firstLevel({}).then(response =>{
 
-      if(!response.data.result){
-        this.$router.push('/main');
+          if(!response.data.result){
+            this.$router.push('/main');
+          }
+        })
+        this.removeAllQuestions();
       }
-    })
-    this.removeAllQuestions();
-  }
+      }
+
 }
 
 </script>

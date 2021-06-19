@@ -20,7 +20,7 @@ import {
     declineTest,
     destroyTest,
     fullMyTest,
-    fullPassingTests
+    fullPassingTests, fullPassingQuestions, sendResults, fullDashboard
 } from "@/api/usual_user";
 
 Vue.use(Vuex)
@@ -40,7 +40,8 @@ export default new Vuex.Store({
         ],
         tests:[],
         myTests: [],
-        passer: []
+        passer: [],
+        currentQuestions: []
     },
     mutations: {
         addQuestion(state) {
@@ -102,6 +103,24 @@ export default new Vuex.Store({
 
         },
 
+        addQuestionToPass(state, payload) {
+            state.currentQuestions.push({
+                id: state.currentQuestions.length,
+                questionName: payload.name,
+                firstAnswer: payload.first,
+                secondAnswer: payload.second,
+                thirdAnswer: payload.third,
+                fourthAnswer: payload.fourth,
+                firstAnswerId: payload.firstId,
+                secondAnswerId: payload.secondId,
+                thirdAnswerId: payload.thirdId,
+                fourthAnswerId: payload.fourthId,
+                chosenAnswer: 0
+            })
+
+        },
+
+
         rewriteQuestion(state, payload) {
             let i = state.questions.findIndex(x => x.id == payload.id)
 
@@ -116,6 +135,7 @@ export default new Vuex.Store({
                 correctAnswer: payload.correctAnswer
             })
         },
+
         removeQuestion(state){
             state.questions.pop();
 
@@ -134,6 +154,11 @@ export default new Vuex.Store({
         },
         removeAllQuestionsAdmin(state){
             state.questions = [
+
+            ]
+        },
+        removeAllQuestionsToPass(state){
+            state.currentQuestions = [
 
             ]
         },
@@ -160,7 +185,24 @@ export default new Vuex.Store({
         deleteTest(state, payload) {
             let i = state.tests.findIndex(x => x.id == payload.id)
             state.tests.splice(i, 1)
-        }
+        },
+
+        changeDecision(state, payload) {
+            let i = state.currentQuestions.findIndex(x => x.id == payload.id)
+            state.currentQuestions.splice(i, 1, {
+                id: payload.id,
+                questionName: payload.name,
+                firstAnswer: payload.first,
+                secondAnswer: payload.second,
+                thirdAnswer: payload.third,
+                fourthAnswer: payload.fourth,
+                firstAnswerId: payload.firstId,
+                secondAnswerId: payload.secondId,
+                thirdAnswerId: payload.thirdId,
+                fourthAnswerId: payload.fourthId,
+                chosenAnswer: payload.chosenAnswer
+            })
+        },
 
     },
     getters:{
@@ -178,6 +220,9 @@ export default new Vuex.Store({
         },
         getPassers(state){
             return state.passer
+        },
+        getCurrentQuestions(state){
+            return state.currentQuestions
         }
     },
 
@@ -297,8 +342,24 @@ export default new Vuex.Store({
         async  fullAllPassingTests({commit}, payload){
             let result = (await fullPassingTests(payload));
             return result
-        }
+        },
+        // eslint-disable-next-line no-unused-vars
+        async  fullAllPassingQuestions({commit}, payload){
+            let result = (await fullPassingQuestions(payload));
+            return result
+        },
 
+        // eslint-disable-next-line no-unused-vars
+        async  sendResultsToServer({commit}, payload){
+            let result = (await sendResults(payload));
+            return result
+        },
+
+        // eslint-disable-next-line no-unused-vars
+        async  takeDashboard({commit}, payload){
+            let result = (await fullDashboard(payload));
+            return result
+        }
     }
 
 })

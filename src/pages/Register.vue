@@ -106,7 +106,7 @@ export default {
                   this.textModal = 'Пользователь с данным логином или почтой уже зарегистрирован';
                 }
                 else{
-                  console.log(response.data.status);
+
                   this.registerNewUser({
                     login: this.login,
                     password: this.password,

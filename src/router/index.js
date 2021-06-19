@@ -4,6 +4,7 @@ import Register from '../pages/Register';
 import MainPage from '../pages/MainPage';
 import AddTest from '../pages/AddTest';
 import Personal from '../pages/Personal';
+import Dashboard from '../pages/Dashboard';
 
 export default new VueRouter({
     mode: 'history',
@@ -31,6 +32,10 @@ export default new VueRouter({
         {
             path: '/personal',
             component: Personal
+        },
+        {
+            path: '/dashboard',
+            component: Dashboard
         }
     ]
 })

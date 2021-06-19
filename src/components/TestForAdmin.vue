@@ -85,6 +85,7 @@ export default {
     },
     closeTest(){
       this.showTest = false
+
     },
 
     applyTest(){
@@ -143,8 +144,8 @@ export default {
      this.fullQuestionsForAdmin({id : this.id}).then(results => {
 
         if(results.data.status === '1'){
-          var a = results.data.result
-          a.forEach((question) => {
+          var unit = results.data.result
+          unit.forEach((question) => {
 
             var cor = 1;
             if(question.corrects[1]){
@@ -180,7 +181,7 @@ export default {
         if(response.data.status === '1'){
           var allTests = response.data.result
           allTests.forEach(test =>{
-            console.log(test)
+
             this.addMyTestToArray({
               name: test.test_name,
               status: test.test_status_name
@@ -276,6 +277,12 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
+
+.test-unit__buttons-unit:hover, .modal__form-button:hover, .test-unit__buttons-unit-delete:hover{
+  background-color: black;
+  border: 3px solid black;
+}
+
 
 @media(max-width: 1500px) {
   .test-unit__buttons{
