@@ -20,7 +20,7 @@ import {
     declineTest,
     destroyTest,
     fullMyTest,
-    fullPassingTests, fullPassingQuestions, sendResults, fullDashboard
+    fullPassingTests, fullPassingQuestions, sendResults, fullDashboard, fullRatingInfo
 } from "@/api/usual_user";
 
 Vue.use(Vuex)
@@ -358,6 +358,12 @@ export default new Vuex.Store({
         // eslint-disable-next-line no-unused-vars
         async  takeDashboard({commit}, payload){
             let result = (await fullDashboard(payload));
+            return result
+        },
+
+        // eslint-disable-next-line no-unused-vars
+        async  fullRating({commit}, payload){
+            let result = (await fullRatingInfo(payload));
             return result
         }
     }

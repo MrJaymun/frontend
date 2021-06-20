@@ -3,7 +3,7 @@
     <div class="page__header">
       <div class="header__nav">
         <button class="header__button" @click="$router.push('/personal')">Личный кабинет</button>
-        <button class="header__button">Рейтинг</button>
+        <button class="header__button" @click="$router.push('/rating')">Рейтинг</button>
         <button class="header__button" @click="$router.push('/main')">Главная страница</button>
       </div>
     </div>

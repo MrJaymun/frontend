@@ -5,7 +5,7 @@ import MainPage from '../pages/MainPage';
 import AddTest from '../pages/AddTest';
 import Personal from '../pages/Personal';
 import Dashboard from '../pages/Dashboard';
-
+import Rating from '../pages/Rating';
 export default new VueRouter({
     mode: 'history',
     routes:[
@@ -36,6 +36,11 @@ export default new VueRouter({
         {
             path: '/dashboard',
             component: Dashboard
+        },
+        {
+            path: '/rating',
+            component: Rating
         }
+
     ]
 })

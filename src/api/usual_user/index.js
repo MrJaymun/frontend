@@ -113,3 +113,8 @@ export const fullDashboard = async (payload) => {
 
     return await Api.post(`/dashboard/allInfo`, payload)
 };
+
+export const fullRatingInfo = async (payload) => {
+
+    return await Api.post(`/rating/allInfo`, payload)
+};

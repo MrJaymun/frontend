@@ -3,7 +3,7 @@
     <div class="header">
       <div class="header__nav">
         <button class="header_button" @click="$router.push('/personal')">Личный кабинет</button>
-        <button class="header_button">Рейтинг</button>
+        <button class="header_button" @click="$router.push('/rating')">Рейтинг</button>
         <button class="header_button" v-if="isNotUsual" @click="$router.push('/add-test')">Создать тест</button>
       </div>
     </div>
