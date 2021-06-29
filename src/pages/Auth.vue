@@ -188,7 +188,7 @@ export default {
   }
 
   .auth__form-title{
-    font-size: 40px;
+    font-size: 36px;
   }
   .auth__form-input{
     margin-top: 20px;
