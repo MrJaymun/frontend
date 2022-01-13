@@ -6,6 +6,7 @@ import AddTest from '../pages/AddTest';
 import Personal from '../pages/Personal';
 import Dashboard from '../pages/Dashboard';
 import Rating from '../pages/Rating';
+import Log from '../pages/Log';
 export default new VueRouter({
     mode: 'history',
     routes:[
@@ -40,6 +41,10 @@ export default new VueRouter({
         {
             path: '/rating',
             component: Rating
+        },
+        {
+            path: '/log',
+            component: Log
         }
 
     ]
