@@ -59,6 +59,11 @@ export const getPassedTests = async (payload) => {
     return await Api.post(`/personal/passedCount`, payload)
 };
 
+export const getMediumTime = async (payload) => {
+
+    return await Api.post(`/personal/mediumTime`, payload)
+};
+
 export const changePassword = async (payload) => {
 
     return await Api.post(`/personal/newPassword`, payload)
@@ -106,7 +111,17 @@ export const fullPassingQuestions = async (payload) => {
 
 export const sendResults = async (payload) => {
 
-    return await Api.post(`/main/sendTest`, payload)
+    return await Api.post(`/main/finishTest`, payload)
+};
+
+export const failTest = async (payload) => {
+
+    return await Api.post(`/main/failTest`, payload)
+};
+
+export const beginTheTestPassing = async (payload) => {
+
+    return await Api.post(`/main/beginTest`, payload)
 };
 
 export const fullDashboard = async (payload) => {

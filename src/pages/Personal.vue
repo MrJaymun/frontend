@@ -23,41 +23,28 @@
           <input class="user-info__input" disabled v-model="createdTests">
         </div>
         <div class="user-info__stat-element">
-          <p>Пройдено тестов</p>
+          <p>Статус аккаунта</p>
+          <input class="user-info__input" disabled v-model="role">
+        </div>
+      </div>
+      <div class="user-info__stat">
+        <div class="user-info__stat-element">
+          <p>Успешных попыток</p>
           <input class="user-info__input" disabled v-model="passedTests">
         </div>
-      </div>
-      <div class="user-info__change-password">
-        <div class="user-info__change-password-element">
-          <p>Введите старый пароль</p>
-          <input class="user-info__input" v-model="password"  placeholder="Английские буквы и цифры" type="password" maxlength="20">
+        <div class="user-info__stat-element">
+          <p>Отмененнных попыток</p>
+          <input class="user-info__input" disabled v-model="failedTests">
         </div>
-        <div class="user-info__change-password-element">
-          <p>Введите новый пароль</p>
-          <input class="user-info__input" v-model="passwordNew"  placeholder="Английские буквы и цифры" type="password" maxlength="20">
+        <div class="user-info__stat-element">
+          <p>Среднее время на попытку</p>
+          <input class="user-info__input" disabled v-model="mediumTime">
         </div>
-        <div class="user-info__change-password-element">
-          <p>Повторите новый пароль</p>
-          <input class="user-info__input" v-model="passwordAnother"  placeholder="Английские буквы и цифры" type="password" maxlength="20">
-        </div>
-        <button class="user-info__form-button" @click="tryToChangePassword">
-          ИЗМЕНИТЬ ПАРОЛЬ
-        </button>
 
       </div>
 
     </div>
-    <div v-show="showModal">
-      <div class="modal__background">
 
-      </div>
-      <div  class="modal__text-part">
-        <p>{{this.textModal}}</p>
-        <button class="modal__form-button" @click="closeModal()">
-          ПОНЯТНО
-        </button>
-      </div>
-    </div>
     <div class="block-header" v-if="isAdmin">
       <p>ТЕСТЫ НА РАССМОТРЕНИИ</p>
     </div>
@@ -88,6 +75,40 @@
       <p class="test-decider__empty" v-if="isMyTestEmpty">Тестов на расммотрении нет</p>
 
     </div>
+
+    <div class="block-header" >
+      <p>ИЗМЕНЕНИЕ ПАРОЛЯ</p>
+    </div>
+
+    <div class = "change-password">
+      <div >
+        <p class="change-password__text">Введите старый пароль</p>
+        <input  class="change-password__input" v-model="password"  placeholder="Английские буквы и цифры" type="password" maxlength="20">
+      </div>
+      <div>
+        <p class="change-password__text">Введите новый пароль</p>
+        <input class="change-password__input" v-model="passwordNew"  placeholder="Английские буквы и цифры" type="password" maxlength="20">
+      </div>
+      <div>
+        <p class="change-password__text">Повторите новый пароль</p>
+        <input class="change-password__input" v-model="passwordAnother"  placeholder="Английские буквы и цифры" type="password" maxlength="20">
+      </div>
+      <button @click="tryToChangePassword" class="change-password__button">
+        ИЗМЕНИТЬ ПАРОЛЬ
+      </button>
+
+    </div>
+    <div v-show="showModal">
+      <div class="modal__background">
+
+      </div>
+      <div  class="modal__text-part">
+        <p>{{this.textModal}}</p>
+        <button class="modal__form-button" @click="closeModal()">
+          ПОНЯТНО
+        </button>
+      </div>
+    </div>
     <div class="exit">
       <button v-if="isAdmin" class="exit__button" @click="$router.push('/dashboard')"> К АНАЛИТИКЕ</button>
       <button class="exit__button" @click="$router.push('/')"> ВЫЙТИ</button>
@@ -107,6 +128,9 @@ export default {
       isNotUsual: false,
       isAdmin: false,
       login: '',
+      role: 'Базовый',
+      failedTests: 0,
+      mediumTime: '',
       createdTests: 0,
       passedTests: 0,
       password: '',
@@ -122,7 +146,7 @@ export default {
     ...mapGetters(['getQuestions', 'getTests', 'getMyTests']),
   },
   methods:{
-    ...mapActions(['firstLevel', 'secondLevel', 'takeInfoAboutLogin', 'takeInfoAboutCreatedTests', 'takeInfoAboutPassedTests', 'changePasswordToNew', 'testList', 'fullOnlyMyTests']),
+    ...mapActions(['firstLevel', 'secondLevel', 'takeInfoAboutLogin', 'takeInfoAboutCreatedTests', 'takeInfoAboutPassedTests', 'changePasswordToNew', 'testList', 'fullOnlyMyTests', 'getTime']),
     ...mapMutations(['clearQuestionList', 'clearTestsList', 'addTestToArray', 'clearMyTestsList', 'addMyTestToArray']),
     closeModal(){
       this.showModal = false;
@@ -231,6 +255,7 @@ export default {
 
         if(response.data.result){
           this.isNotUsual = true;
+          this.role = 'Создатель тестов'
         }
         else{
           this.isNotUsual =  false
@@ -240,6 +265,7 @@ export default {
 
         if(response.data.result){
           this.isAdmin = true;
+          this.role = 'Администратор'
         }
         else{
           this.isAdmin =  false
@@ -258,15 +284,24 @@ export default {
         this.takeInfoAboutPassedTests({
           login: this.login
         }).then(responseCr =>{
-          if(responseCr.data.status === '1'){
-            this.passedTests = responseCr.data.result
 
+          if(responseCr.data.status === '1'){
+            this.passedTests = responseCr.data.counter[1].counter
+            this.failedTests = responseCr.data.counter[0].counter
           }
         })
+        this.getTime({ login: this.login}).then((responseCr=>{
+
+          if(responseCr.data.status === '1'){
+            this.mediumTime = responseCr.data.time[0].time
+          }
+
+        }))
       })
 
       this.refreshListOfUnresolvedTests();
       this.refreshMyTestsList();
+
     }
 
 
@@ -321,12 +356,8 @@ export default {
   margin-left: 2%;
   margin-right: 2%;
 }
-.user-info__change-password{
-  border: 1px solid black;
-  margin-left: 2%;
-  margin-right: 2%;
-}
-.user-info__change-password-element, .user-info__stat-element{
+
+ .user-info__stat-element{
   display: grid;
   grid-auto-flow: column;
   text-align: center;
@@ -342,7 +373,18 @@ export default {
 
 }
 
-.user-info__form-button, .modal__form-button, .exit__button{
+.change-password__input{
+  font-size: 24px;
+  text-align: center;
+  font-family: 'Jura', sans-serif;
+  width: 500px;
+  height: 50px;
+  margin-bottom: 30px;
+
+}
+
+
+ .modal__form-button, .exit__button, .change-password__button{
   display: block;
   margin: 0 auto 30px;
   background-color: darkblue;
@@ -356,7 +398,7 @@ export default {
 
 }
 
-.user-info__form-button:hover, .modal__form-button:hover, .exit__button:hover{
+ .modal__form-button:hover, .exit__button:hover, .change-password__button:hover{
   background-color: black;
   border: 3px solid black;
 }
@@ -401,6 +443,19 @@ export default {
   font-size: 30px;
 }
 
+.change-password{
+  border: 1px solid black;
+  margin-left: calc(5% + 25px);
+  margin-right: calc(5% + 25px);
+  padding-bottom: 50px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.change-password__text{
+  font-size: 30px;
+  font-family: 'Jura', sans-serif;
+}
 .exit{
   text-align: center;
   margin: 100px auto 0;
@@ -410,18 +465,11 @@ export default {
   .user-info{
     grid-auto-flow: row;
   }
-  .user-info__change-password{
-    margin-top: 30px;
-  }
+
 }
 @media(max-width: 800px) {
-  .user-info__change-password-element, .user-info__stat-element{
-   display: block;
-  }
-  .user-info__input{
-    font-size: 16px;
-
-
+  .user-info__stat-element{
+    padding: 20px;
   }
 }
 @media(max-width: 700px) {
@@ -432,7 +480,7 @@ export default {
     width: 90%;
     font-size: 24px;
   }
-  .user-info__form-button, .modal__form-button, .exit__button{
+  .modal__form-button, .exit__button, .change-password__button{
     font-size: 24px;
     width: 250px;
     height: 50px;
@@ -440,6 +488,29 @@ export default {
   .modal__text-part{
     max-width: 260px;
 
+  }
+
+  .change-password__input{
+    width: 300px;
+    font-size: 20px;
+  }
+}
+@media(max-width: 500px) {
+  .user-info__stat-element p, .user-info__input{
+    font-size: 14px;
+  }
+  .change-password__button{
+    width: 200px;
+    font-size: 20px;
+  }
+  .change-password__input{
+    width: 200px;
+    font-size: 10px;
+  }
+}
+@media(max-width: 400px) {
+  .user-info__stat-element{
+   padding: 20px;
   }
 }
 </style>

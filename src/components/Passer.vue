@@ -81,7 +81,7 @@ export default {
 
   },
   methods: {
-    ...mapActions(['fullAllPassingQuestions', 'sendResultsToServer']),
+    ...mapActions(['fullAllPassingQuestions', 'sendResultsToServer', 'beginTheTest', 'failTheTest']),
     ...mapMutations(['removeAllQuestionsToPass', 'addQuestionToPass']),
     beginTest(){
       this.removeAllQuestionsToPass();
@@ -101,6 +101,7 @@ export default {
              fourthId: question.ids[3],
            })
           })
+          this.beginTheTest({id: this.id});
           this.showTest = true;
         }
       })
@@ -108,10 +109,11 @@ export default {
     },
     closeTest(){
       this.showTest = false;
-
+      this.failTheTest({id: this.id});
     },
 
     closeResult(){
+
       this.showResult = false;
 
     },

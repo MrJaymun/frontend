@@ -20,8 +20,9 @@ import {
     declineTest,
     destroyTest,
     fullMyTest,
-    fullPassingTests, fullPassingQuestions, sendResults, fullDashboard, fullRatingInfo
+    fullPassingTests, fullPassingQuestions, sendResults, fullDashboard, fullRatingInfo, beginTheTestPassing, failTest, getMediumTime
 } from "@/api/usual_user";
+
 
 Vue.use(Vuex)
 
@@ -339,6 +340,11 @@ export default new Vuex.Store({
             return result
         },
         // eslint-disable-next-line no-unused-vars
+        async  getTime({commit}, payload){
+            let result = (await getMediumTime(payload));
+            return result
+        },
+        // eslint-disable-next-line no-unused-vars
         async  fullAllPassingTests({commit}, payload){
             let result = (await fullPassingTests(payload));
             return result
@@ -352,6 +358,19 @@ export default new Vuex.Store({
         // eslint-disable-next-line no-unused-vars
         async  sendResultsToServer({commit}, payload){
             let result = (await sendResults(payload));
+            return result
+        },
+
+        // eslint-disable-next-line no-unused-vars
+        async  beginTheTest({commit}, payload){
+
+            let result = (await beginTheTestPassing(payload));
+            return result
+        },
+
+        // eslint-disable-next-line no-unused-vars
+        async  failTheTest({commit}, payload){
+            let result = (await failTest(payload));
             return result
         },
 
