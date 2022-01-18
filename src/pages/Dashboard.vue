@@ -180,8 +180,9 @@ export default {
         response.data.category.forEach(item => {
           this.statCategory.series[0].data.push({value: item.counter, name: item.test_category_name})
         })
+        console.log(response.data)
         response.data.users.forEach(item => {
-          this.statAuthor.series[0].data.push({value: item.counter, name: item.test_author_name})
+          this.statAuthor.series[0].data.push({value: item.counter, name: item.user_id})
         })
         response.data.tests.forEach(item => {
           if(item.test_status_id === 1){
