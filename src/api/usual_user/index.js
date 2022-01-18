@@ -133,3 +133,13 @@ export const fullRatingInfo = async (payload) => {
 
     return await Api.post(`/rating/allInfo`, payload)
 };
+
+export const getInfoAboutAllDays = async (payload) => {
+
+    return await Api.post(`/log/logsAllTime`, payload)
+};
+
+export const getInfoAboutOneDay = async (payload) => {
+
+    return await Api.post(`/log/logsOneDay`, payload)
+};

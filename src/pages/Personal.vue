@@ -111,6 +111,7 @@
     </div>
     <div class="exit">
       <button v-if="isAdmin" class="exit__button" @click="$router.push('/dashboard')"> К АНАЛИТИКЕ</button>
+      <button v-if="isAdmin" class="exit__button" @click="$router.push('/log')"> К ЛОГАМ</button>
       <button class="exit__button" @click="$router.push('/')"> ВЫЙТИ</button>
     </div>
   </div>

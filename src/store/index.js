@@ -20,8 +20,9 @@ import {
     declineTest,
     destroyTest,
     fullMyTest,
-    fullPassingTests, fullPassingQuestions, sendResults, fullDashboard, fullRatingInfo, beginTheTestPassing, failTest, getMediumTime
+    fullPassingTests, fullPassingQuestions, sendResults, fullDashboard, fullRatingInfo, beginTheTestPassing, failTest, getMediumTime, getInfoAboutAllDays, getInfoAboutOneDay
 } from "@/api/usual_user";
+
 
 
 Vue.use(Vuex)
@@ -42,7 +43,8 @@ export default new Vuex.Store({
         tests:[],
         myTests: [],
         passer: [],
-        currentQuestions: []
+        currentQuestions: [],
+        logs: []
     },
     mutations: {
         addQuestion(state) {
@@ -121,6 +123,17 @@ export default new Vuex.Store({
 
         },
 
+        addLogToArray(state, payload) {
+            state.logs.push({
+                id: state.logs.length,
+                user: payload.user,
+                begintime: payload.begintime,
+                duration: payload.duration,
+                testname: payload.testname,
+                status: payload.status
+            })
+        },
+
 
         rewriteQuestion(state, payload) {
             let i = state.questions.findIndex(x => x.id == payload.id)
@@ -167,6 +180,10 @@ export default new Vuex.Store({
             state.passer = [
 
             ]
+        },
+
+        clearLogs(state){
+            state.logs = []
         },
         addName(state, payload) {
             state.nameOfText = payload.name
@@ -224,6 +241,9 @@ export default new Vuex.Store({
         },
         getCurrentQuestions(state){
             return state.currentQuestions
+        },
+        getLogs(state){
+            return state.logs
         }
     },
 
@@ -383,6 +403,18 @@ export default new Vuex.Store({
         // eslint-disable-next-line no-unused-vars
         async  fullRating({commit}, payload){
             let result = (await fullRatingInfo(payload));
+            return result
+        },
+
+        // eslint-disable-next-line no-unused-vars
+        async  getAllLogs({commit}, payload){
+            let result = (await getInfoAboutAllDays(payload));
+            return result
+        },
+
+        // eslint-disable-next-line no-unused-vars
+        async  getOneDayLogs({commit}, payload){
+            let result = (await getInfoAboutOneDay(payload));
             return result
         }
     }
