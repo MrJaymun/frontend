@@ -149,6 +149,7 @@ export default {
   methods:{
     ...mapActions(['firstLevel', 'secondLevel', 'takeInfoAboutLogin', 'takeInfoAboutCreatedTests', 'takeInfoAboutPassedTests', 'changePasswordToNew', 'testList', 'fullOnlyMyTests', 'getTime']),
     ...mapMutations(['clearQuestionList', 'clearTestsList', 'addTestToArray', 'clearMyTestsList', 'addMyTestToArray']),
+
     closeModal(){
       this.showModal = false;
     },
@@ -285,10 +286,9 @@ export default {
         this.takeInfoAboutPassedTests({
           login: this.login
         }).then(responseCr =>{
-
           if(responseCr.data.status === '1'){
-            this.passedTests = responseCr.data.counter[1].counter
-            this.failedTests = responseCr.data.counter[0].counter
+            this.passedTests = responseCr.data.finished[0].count
+            this.failedTests = responseCr.data.left[0].count
           }
         })
         this.getTime({ login: this.login}).then((responseCr=>{
